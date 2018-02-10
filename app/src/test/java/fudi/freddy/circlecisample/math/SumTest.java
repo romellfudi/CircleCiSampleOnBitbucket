@@ -17,8 +17,8 @@ public class SumTest {
 
 
     @Test
-    public void methodError() throws Exception {
-        assertEquals(Sum.method(999,999),999+999+1);
+    public void methodErrorSolved() throws Exception {
+        assertEquals(Sum.method(999,999),999+999);
     }
 
 }
