@@ -1,45 +1,40 @@
-# Java Gradle CircleCI 2.0 configuration file
 #
-# Check https://circleci.com/docs/2.0/language-java/ for more details
+# Build configuration for Circle CI
 #
-version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+general:
+    artifacts:
+        - /home/ubuntu/project-name/app/build/outputs/apk/
 
-#    working_directory: ~/repo
-
+machine:
     environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
+        ANDROID_HOME: /usr/local/android-sdk-linux
 
-    steps:
-      - checkout
+dependencies:
+    pre:
+        - wget "https://services.gradle.org/distributions/gradle-2.13-bin.zip"; unzip gradle-2.13-bin.zip
+        - source environmentSetup.sh && copyEnvVarsToGradleProperties
+    override:
+        - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-23.0.3,android-23,extra-google-m2repository,extra-google-google_play_services,extra-android-m2repository
+        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
-      # Download and cache dependencies
-#      - restore_cache:
-#          keys:
-#          - v1-dependencies-{{ checksum "build.gradle" }}
-#          # fallback to using the latest cache if no exact match is found
-#          - v1-dependencies-
-
-      - run: gradle dependencies
-
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: v1-dependencies-{{ checksum "build.gradle" }}
-
-      # run tests!
-      - run: gradle test
-
-
-
+test:
+    override:
+        # start the build
+        - (./gradlew assemble):
+            timeout: 360
+        # start the emulator
+        - emulator -avd circleci-android22 -no-audio -no-window:
+            background: true
+            parallel: true
+        # wait for it to have booted
+        - circle-android wait-for-boot
+        # unlock the emulator screen
+        - sleep 30
+        - adb shell input keyevent 82
+        # run tests  against the emulator.
+        - ./gradlew connectedDevelopmentDebugAndroidTest -PdisablePreDex
+        # copy the build outputs to artifacts
+        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+        # copy the test results to the test results directory.
+        - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
