@@ -33,6 +33,13 @@ android {
                 && variant.getFlavors().get(0).name.equals('production')))
             variant.setIgnore(true);
     }
+    gradle.taskGraph.useFilter { task ->
+        if (task.name.startsWith("test") &&
+                task.name.contains("ProductionReleaseUnitTest")) {
+            return false;
+        } else
+            return true;
+    }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -48,6 +55,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
 }
 
 dependencies {
