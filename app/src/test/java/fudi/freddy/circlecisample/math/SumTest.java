@@ -21,4 +21,11 @@ public class SumTest {
         assertEquals(Sum.method(999,999),999+999);
     }
 
+
+
+    @Test
+    public void methodThrid() throws Exception {
+        assertEquals(Sum.method(-999,999),0);
+    }
+
 }
