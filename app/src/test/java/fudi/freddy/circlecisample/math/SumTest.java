@@ -30,7 +30,7 @@ public class SumTest {
 
     @Test
     public void methodFour() throws Exception {
-        assertEquals(Sum.method(-9,9),0);
+        assertEquals(Sum.method(-0,0),0);
     }
 
 }
