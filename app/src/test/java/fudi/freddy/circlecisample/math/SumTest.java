@@ -22,10 +22,15 @@ public class SumTest {
     }
 
 
-
     @Test
     public void methodThrid() throws Exception {
         assertEquals(Sum.method(-999,999),0);
+    }
+
+
+    @Test
+    public void methodFour() throws Exception {
+        assertEquals(Sum.method(-9,9),0);
     }
 
 }
