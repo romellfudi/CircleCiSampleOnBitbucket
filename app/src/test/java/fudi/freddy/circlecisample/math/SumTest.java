@@ -17,20 +17,8 @@ public class SumTest {
 
 
     @Test
-    public void methodErrorSolved() throws Exception {
-        assertEquals(Sum.method(999,999),999+999);
-    }
-
-
-    @Test
-    public void methodThrid() throws Exception {
-        assertEquals(Sum.method(-999,999),0);
-    }
-
-
-    @Test
-    public void methodFour() throws Exception {
-        assertEquals(Sum.method(-0,0),0);
+    public void methodError() throws Exception {
+        assertEquals(Sum.method(999,999),999999);
     }
 
 }
