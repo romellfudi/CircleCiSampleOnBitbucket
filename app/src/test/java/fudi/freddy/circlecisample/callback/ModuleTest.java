@@ -51,13 +51,13 @@ public class ModuleTest {
 
 
     @Test
-    public void service() throws Exception {
-        int v = 89;
+    public void serviceModule() throws Exception {
+        int v = 69;
         module.service(v,callback);
         verify(callback).returnData(data.capture());
         Data dataResponse = data.getValue();
         assertThat(dataResponse, is(notNullValue()));
-        assertThat(dataResponse.getValue(), is(89));
+        assertThat(dataResponse.getValue(), is(69));
 
     }
 
