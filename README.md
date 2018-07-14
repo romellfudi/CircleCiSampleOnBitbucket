@@ -39,11 +39,11 @@ jobs:
       - store_test_results:
           path: app/build/test-results
 
-#
 ```
 
-<p align="center">
-<img src="snapshot/A.png"  alt="drawing" width="250px" /></p>
+<!-- <p align="center">
+<img src="snapshot/A.png"  alt="drawing" width="250px" /></p> -->
+![image](snapshot/A.png){ width=25% }
 
 En la configuración del bitbucket deben de estar asegurado que los permisos de escritura esten habilitados para commits inmediatos en el branch original
 
