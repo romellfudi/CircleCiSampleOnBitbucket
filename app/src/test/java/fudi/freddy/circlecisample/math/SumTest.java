@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class SumTest {
     @Test
     public void method() throws Exception {
-        assertEquals(Sum.method(2,3),5);
+        assertEquals(Sum.method(-2,-3),-5);
     }
 
 
