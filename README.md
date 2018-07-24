@@ -1,5 +1,7 @@
 # CircleSample on Android Projects
 #### Author Romell Domínguez
+[![](snapshot/icono.png)](https://www.romellfudi.com/)
+
 ## Basic Module
 
 Cuando tenga listo su apllicación Android/Gradle, registrar su aplicación en circleci.com 
