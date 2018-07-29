@@ -9,6 +9,7 @@ Cuando tenga listo su apllicación Android/Gradle, registrar su aplicación en c
 Cuando enlacen su projecto(en este caso Bitbucket también funciona para Github), nos permitirá enlazar nuestro projecto con una configuración *.yml este debe ser colocado en una carpeta llamada '.circleci/':
 
 > ./circleci/config.yml
+
 ```yml
 version: 2
 jobs:
