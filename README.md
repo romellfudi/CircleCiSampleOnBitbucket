@@ -207,4 +207,4 @@ Todos los derechos reservados de uso a la herramienta :
 
 [![image](snapshot/circleci.png#circleci)](https://circleci.com/)
 
-2018, July
+**2018, July**
