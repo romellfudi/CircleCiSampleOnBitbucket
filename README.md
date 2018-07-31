@@ -2,11 +2,16 @@
 #### Author Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
 
+
+Use CircleCi Service, please create acount and register on CircleCi:
+
+[![image](snapshot/circleci.png#circleci)](https://circleci.com/)
+
 ## Basic Module
 
-Cuando tenga listo su apllicación Android/Gradle, registrar su aplicación en circleci.com 
+When your Android/Gradle project its ready, need  register application on CircleCi. 
 
-Cuando enlacen su projecto(en este caso Bitbucket también funciona para Github), nos permitirá enlazar nuestro projecto con una configuración *.yml este debe ser colocado en una carpeta llamada '.circleci/':
+In this tutorial we use bitbucket repository, but work similary on Github, CircleCi need a *yml file* to connect with gradle whole put on  '.circleci/':
 
 > ./circleci/config.yml
 
@@ -44,6 +49,152 @@ jobs:
 
 ```
 
+![image](snapshot/A.png#vertical)
+
+
+In the configuration of the Bitbucket, must be insured that the permissions of writing are enabled for committing immediate in the original branch
+
+![image](snapshot/B.png#center)
+
+For dynamic, create a test unit that throw error assert on Java Class into test directory:
+
+![image](snapshot/AS.png#center)
+
+Write a error comment into commit, just only for visualize on Repository and CircleCi
+
+![image](snapshot/AT.png#center)
+
+When pushed on remote repository, we can view on CircleCi dashboard, on this display show every testing, the status change on real time (**running**): 
+
+![image](snapshot/AU.png#center)
+
+When finished, display one of two status failed or success. In this case show an issue
+
+![image](snapshot/AW.png#center)
+
+Suppose we found the problem, test unit cases had been corroborated, make commit and push it, into CircleCi dashboard show automatically
+
+![image](snapshot/AV.png#center)
+
+![image](snapshot/AX.png#center)
+
+Great CircleCi run all test cases and not find any issue, but found a previous test case failed already corrected it.
+
+![image](snapshot/AY.png#center)
+
+Summarizing the dashboard of circleCi, shows the following:
+
+* NOT RUN: Had a test case dont run, circleCi need permissions for run testing cases.
+* SUCCESS: All test cases run successful
+* FAILED: Excited test cases don't run well
+* FIXED: Previous test case failed already had corrected it
+
+![image](snapshot/AZ.png#center)
+
+## Intermediate Module
+
+Once test the potential of the tool we are going to see the really useful thing that we can do with Circleci, let's suppose that in our team development, then we want to assure the main branch of our repository always have a stable version, where everything developed has been proved correctly.
+
+On Bitbucket go to configure and edit branch permissions, stay blank space in 'write access' input, and uncheck or revoke all permissions for revoking directly new changes, and enable pull request task for everybody.
+
+![image](snapshot/C.png#center)
+
+Create a new testing case call 'serviceModule', in my case use mockito library 
+
+![image](snapshot/D.png#center)
+
+Make the respective commit
+
+![image](snapshot/E.png#center)
+
+But tried to send our changes to the remote 'origin', the repository will reject, because dont have permissions
+
+**Now, What we do?**
+
+![image](snapshot/EA.png#center)
+
+**Simple, create a new branch from our worked branch**
+If use Android Studio, on 'Push Commits' window, write the name for new branch called 'BranchServiceTest'
+
+![image](snapshot/F.png#center)
+
+![image](snapshot/G.png#center)
+
+When pushed the branch, normally work because we only disabled the changes on master branch or directly push
+
+![image](snapshot/H.png#center)
+
+On the CircleCi dashboard, a new record with **NOT RUN** label and the last commit, CircleCi detected new changes on repository but doesn't had permissions.
+
+![image](snapshot/I.png#center)
+
+On Bitbucket we look the three change had a new 'BranchServiceTest' branch, builed from AndroidStudio
+
+![image](snapshot/J.png#center)
+
+Suppose a person in charge of the changes, witch create the new branch need merge on remote origin, the person create a pull request
+
+![image](snapshot/L.png#center)
+
+On details put a message for the respective merge request and indicate close branch when resolved conclits.
+
+![image](snapshot/M.png#center)
+
+On our project Pull Request display a new request:
+
+![image](snapshot/N.png#center)
+
+Test manager put comments or merge directlly. **Look on upper right, a toggle button (Approve)**. Click to run test cases, then change in real time the execute
+
+![image](snapshot/O.png#center)
+
+On CircleCi dashboard, added a new record,  when run all test and passed. The record status will change. In our case 'success'
+
+![image](snapshot/P.png#center)
+
+On the right screen display we visualize a counter of executed tests, in our case not detected that the issues of other test cases have been modified, only it will execute our test 'serviceModule' of the class ModuleTest
+
+![image](snapshot/Q.png#center)
+
+When the administrador had confirm the new implementation, procede to merge. **Assuring a rate of reliability of the code at all time** 
+
+![image](snapshot/R.png#center)
+
+On Bitbucket-commits display the new auxiliar branch was remove, just only display a branch 'master' 
+
+![image](snapshot/S.png#center)
+
+Since we can estimate the tool Circleci, it allows us a great usefulness, for the management and control of the versioning of the cases of tests (proofs) automated, allowing to diversify the tasks between the collaborators of the project where they need test
+
+## Advance module
+
+On CircleCi dashboard show the result:
+
+![image](snapshot/T.png#center)
+
+We can see the record to detail of the testing, step by step display all the commands that we had written on yml file:
+
+![image](snapshot/U.png#center)
+
+On CircleCi yml file, check 'Chmod permissions'. Because it is very usual that the beginners in this tool have problems due to depending on the this machine(CircleCi Server)  would need permissions
+
+```yml
+...
+jobs: ...
+  build: ...
+    steps: ...
+      - run: ...
+         command: sudo chmod +x ./gradlew
+...
+```
+
+CircleCi tools supported the gradle flavors, in this project use 'SonarQube' flavor, for connect it to a base of facts of testing need it on the part of the organization:
+
+![image](snapshot/V.png#center)
+
+**2018, July**
+
+
 <style>
 img[src*='#center'] { 
     width:500px;
@@ -61,150 +212,3 @@ img[src*='#circleci'] {
     margin: auto;
 }
 </style>
-
-
-![image](snapshot/A.png#vertical)
-
-
-En la configuración del bitbucket deben de estar asegurado que los permisos de escritura esten habilitados para commits inmediatos en el branch original
-
-![image](snapshot/B.png#center)
-
-Para hacer dinamico la prueba generamos un caso de prueba unitario erroneo:
-
-![image](snapshot/AS.png#center)
-
-![image](snapshot/AT.png#center)
-
-Cuando realizamos el push el git remote, podemos visualizar que circleci comienza a ejecutar todas las pruebas 
-
-![image](snapshot/AU.png#center)
-
-Una vez finalizado nos indicará la falla encontrada
-
-![image](snapshot/AW.png#center)
-
-Ahora supongamos que ya resolvimos la incidencia, y las pruebas unitarias han sido corraboradas, realizamos push al git remote, en Circleci vemos que automáticamente las pruebas comezarón a ejecutarse
-
-![image](snapshot/AV.png#center)
-
-![image](snapshot/AX.png#center)
-
-Una vez finalizado podemos apreciar en el dashboard de Circleci nos indica que ha culminado con éxito
-
-![image](snapshot/AY.png#center)
-
-Resumiendo el dashboard de circle ci muestra lo siguiente, donde:
-
-* NOT RUN: Indica la prueba no ha sido ejecutada.
-* SUCCESS: La prueba ha sido ejecutada satisfactoriamente
-* FAILED: La prueba ha presentado incidencias
-* FIXED: SI encuentra todas las pruebas fallidas anteriormente ejecutadas pasan correctamente
-
-![image](snapshot/AZ.png#center)
-
-## Intermediate Module
-
-Una vez visto el potencial de la herramienta vamos a ver lo realmente útil que podemos hacer con Circleci, supongamos que en nuestro team Development queremos asegurar el branch maestro de nuestro repositorio siempre tenga una versión estable, donde todo lo desarrollado ha sido probado correctamente.
-
-En la configuración de permisos de branch ahora quitaremos los permisos a todos los usuarios vías directas, y habilitamos únicamente los permisos vía pull request
-
-![image](snapshot/C.png#center)
-
-Generamos nuevamente un caso  de prueba 'serviceModule', en mi caso estoy probando una interfaz utilizando la libraría mokito 
-
-![image](snapshot/D.png#center)
-
-Hacemos el commit respectivo
-
-![image](snapshot/E.png#center)
-
-Pero al intentar enviar nuestros cambios al remote origin, el repositorio nos rechazará por no tender permisos
-
-**Y AHORA QUÉ HAGO?**
-
-![image](snapshot/EA.png#center)
-
-**Simple generamos una rama a partir de la principal**
-En la ventana de 'Push Commits' AndroidStudio, tendremos que pasar todos nuestros cambios a una rama auxiliar
-
-![image](snapshot/F.png#center)
-
-![image](snapshot/G.png#center)
-
-Al realizar push, nos dejará libremente crearla debido a que únicamente deshabilitamos los cambios directos en el branch master.
-
-![image](snapshot/H.png#center)
-
-En el dasdhboard de nuestro proyecto en Circleci, veremos que hay un registro de pruebas con la etiqueta **NOT RUN**, está se agrega al detectar nuevos cambios en el repositorio
-
-![image](snapshot/I.png#center)
-
-Por otro lado en nuestro árbol de cambios/commits visualizaremos la nueva rama 'BranchServiceTest', creada desde nuestro AndroidStudio
-
-![image](snapshot/J.png#center)
-
-La persona encargada del cambio, que ha creado el nuevo branch, tiene que solicitar el merge al remote origin (crear nuevo pull request) 
-
-![image](snapshot/L.png#center)
-
-En el detalle debe indicar los cambios que ha relizado a alto nivel, confirmando que ha añadido sus respectivos casos de pruebas
-
-![image](snapshot/M.png#center)
-
-En la pantalla de pull requests se habrá añadido la solicitud para el respectivo merge
-
-![image](snapshot/N.png#center)
-
-Al entrar en el detalle podemos ver los cambios con sus comentarios hechos y el mensaje del desarrollador. **Debemos percatarnos de algo muy especial, tenemos un toggle button en la parte superior derecha (Approve)**. Al hacer click procederá la ejecución de los casos de pruebas en Circleci
-
-![image](snapshot/O.png#center)
-
-En el dashboard veremos como las pruebas se han ejecutado, una vez terminado visualizamos con éxito la ejecución de pruebas
-
-![image](snapshot/P.png#center)
-
-En la pantalla donde estamos del bitbucket visualizamos que hay un contador de pruebas ejecutadas, en nuestro caso como no ha detectado que los flujos de otros casos de pruebas han sido modificados, únicamente ejecutará nuestro caso de prueba 'serviceModule' de la clase ModuleTest 
-
-![image](snapshot/Q.png#center)
-
-En caso el administrador este conforme con  la implementación de los casos sean conforme, puede proceder al merge. **Asegurando una tasa de fiabilidad del código en todo momento** 
-
-![image](snapshot/R.png#center)
-
-En el apartado de los commits visualizamos que ya no existe la rama auxiliar, manteniendo nuestro cambios en el branch 'master' 
-
-![image](snapshot/S.png#center)
-
-Como podemos apreciar la herramienta Circleci nos permite una gran utilidad, para la gestión y control del versionamiento de los casos de pruebas automatizados, permitiendo diversificar las tareas entre los colaboradores del proyecto donde requieran pruebas
-
-## Advance module
-
-En el dashboard de Cicleci si entramos en uno de los resultados de las ejecuciones podemos ver:
-
-![image](snapshot/T.png#center)
-
-Podemos ver el registro a detalle de la prueba, step by step de todos los comandos que hemos dichos que realice:
-
-![image](snapshot/U.png#center)
-
-En el apartado de 'Chmod permissions' es muy usual que los principiantes en esta herramienta tengan problemas debido a dependiendo de la maquina esta necesitará permisos SUDO
-
-```yml
-jobs: ...
-  build: ...
-    steps: ...
-      - run: ...
-         command: sudo chmod +x ./gradlew
-...
-```
-
-Como se puede apreciar la herramienta Circleci soporta flavors de gradle, en este proyecto estoy usando el flavor 'SonarQube' para luego conectarlo a una base de hechos de pruebas en caso lo requiera por parte de la organización  :
-
-![image](snapshot/V.png#center)
-
-Todos los derechos reservados de uso a la herramienta :
-
-[![image](snapshot/circleci.png#circleci)](https://circleci.com/)
-
-**2018, July**
