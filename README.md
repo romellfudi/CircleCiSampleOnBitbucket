@@ -1,4 +1,6 @@
 # CircleSample on Android Projects
+[![](https://img.shields.io/badge/language-ES-blue.svg)](./README.es)
+
 #### Author Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
 
