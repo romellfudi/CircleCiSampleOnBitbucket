@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!-- saved from url=(0092)https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#0 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <link rel="shortcut icon" href="https://raw.githubusercontent.com/romellfudi/assets/master/favicon.ico" />  
+  <title>CircleCi on Bitbucket</title>
+  <link rel="stylesheet" href="./index_files/css">
+  <link rel="stylesheet" href="./index_files/icon">
+  <link rel="stylesheet" href="./index_files/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body class="vsc-initialized">
+  <google-codelab id="https://github.com/romellfudi/CircleCiSampleOnBitbucket" environment="web" feedback-link="https://github.com/romellfudi/CircleCiSampleOnBitbucket/issues" selected="0" google-codelab-ready="" codelab-title="CircleCi on Bitbucket"><div id="drawer"><div class="codelab-time-container" style="display: none;"></div><div class="steps"><ol><li completed="" selected=""><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#0"><span class="step"><span>Introduction</span></span></a></li><li><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#1"><span class="step"><span>Basic Module</span></span></a></li><li><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#2"><span class="step"><span>Intermediate Module</span></span></a></li><li><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#3"><span class="step"><span>Advance module</span></span></a></li><li><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#4"><span class="step"><span>License</span></span></a></li></ol></div><div class="metadata"><a target="_blank" href="https://github.com/romellfudi/CircleCiSampleOnBitbucket/issues"><i class="material-icons">bug_report</i> Report a mistake</a></div></div><div id="codelab-title"><div id="codelab-nav-buttons"><a href="https://codelabs-preview.appspot.com/" id="arrow-back"><i class="material-icons">close</i></a><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#" id="menu"><i class="material-icons">menu</i></a></div><h1 class="title">CircleCi on Bitbucket</h1><div class="codelab-time-container" style="display: none;"></div><devsite-user></devsite-user></div><div id="main"><div id="steps"><google-codelab-step label="Introduction" duration="0" step="1" selected=""><h2 is-upgraded="" class="step-title">1. Introduction</h2>
+        <p>Use CircleCi Service, Before all else create account and register on <a href="https://circleci.com/" target="_blank">CircleCi</a>:</p>
+<p class="image-container"><img style="width: 200.00px" src="./index_files/circleci.png"></p>
+
+
+      </div></div></google-codelab-step><google-codelab-step label="Basic Module" duration="0" step="2"><h2 is-upgraded="" class="step-title">2. Basic Module</h2>
+        <p>When your Android/Gradle project its ready, need  register application on CircleCi. </p>
+<p>In this tutorial we use bitbucket repository, but work similarly on Github, CircleCi need a <strong>yml file</strong> to connect with gradle whole put on  <code>.circleci/</code>:</p>
+<pre><code><span class="com">// ./circleci/config.yml</span><span class="pln">
+version</span><span class="pun">:</span><span class="pln"> </span><span class="lit">2</span><span class="pln">
+jobs</span><span class="pun">:</span><span class="pln">
+  build</span><span class="pun">:</span><span class="pln">
+    working_directory</span><span class="pun">:</span><span class="pln"> </span><span class="pun">~/</span><span class="pln">code
+    docker</span><span class="pun">:</span><span class="pln">
+      </span><span class="pun">-</span><span class="pln"> image</span><span class="pun">:</span><span class="pln"> circleci</span><span class="pun">/</span><span class="pln">android</span><span class="pun">:</span><span class="pln">api</span><span class="pun">-</span><span class="lit">25</span><span class="pun">-</span><span class="pln">alpha
+    environment</span><span class="pun">:</span><span class="pln">
+      JVM_OPTS</span><span class="pun">:</span><span class="pln"> </span><span class="pun">-</span><span class="typ">Xmx3200m</span><span class="pln">
+    steps</span><span class="pun">:</span><span class="pln">
+      </span><span class="pun">-</span><span class="pln"> checkout
+      </span><span class="pun">-</span><span class="pln"> restore_cache</span><span class="pun">:</span><span class="pln">
+          key</span><span class="pun">:</span><span class="pln"> jars</span><span class="pun">-{{</span><span class="pln"> checksum </span><span class="str">"build.gradle"</span><span class="pln"> </span><span class="pun">}}-{{</span><span class="pln"> checksum  </span><span class="str">"app/build.gradle"</span><span class="pln"> </span><span class="pun">}}</span><span class="pln">
+      </span><span class="pun">-</span><span class="pln"> run</span><span class="pun">:</span><span class="pln">
+         name</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Chmod</span><span class="pln"> permissions </span><span class="com">#if permission for Gradlew Dependencies fail, use this.</span><span class="pln">
+         command</span><span class="pun">:</span><span class="pln"> sudo chmod </span><span class="pun">+</span><span class="pln">x </span><span class="pun">./</span><span class="pln">gradlew
+      </span><span class="pun">-</span><span class="pln"> run</span><span class="pun">:</span><span class="pln">
+          name</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Download</span><span class="pln"> </span><span class="typ">Dependencies</span><span class="pln">
+          command</span><span class="pun">:</span><span class="pln"> </span><span class="pun">./</span><span class="pln">gradlew androidDependencies
+      </span><span class="pun">-</span><span class="pln"> save_cache</span><span class="pun">:</span><span class="pln">
+          paths</span><span class="pun">:</span><span class="pln">
+            </span><span class="pun">-</span><span class="pln"> </span><span class="pun">~/.</span><span class="pln">gradle
+          key</span><span class="pun">:</span><span class="pln"> jars</span><span class="pun">-{{</span><span class="pln"> checksum </span><span class="str">"build.gradle"</span><span class="pln"> </span><span class="pun">}}-{{</span><span class="pln"> checksum  </span><span class="str">"app/build.gradle"</span><span class="pln"> </span><span class="pun">}}</span><span class="pln">
+      </span><span class="pun">-</span><span class="pln"> run</span><span class="pun">:</span><span class="pln">
+          name</span><span class="pun">:</span><span class="pln"> </span><span class="typ">Run</span><span class="pln"> </span><span class="typ">Tests</span><span class="pln">
+          command</span><span class="pun">:</span><span class="pln"> </span><span class="pun">./</span><span class="pln">gradlew lint test
+      </span><span class="pun">-</span><span class="pln"> store_artifacts</span><span class="pun">:</span><span class="pln">
+          path</span><span class="pun">:</span><span class="pln"> app</span><span class="pun">/</span><span class="pln">build</span><span class="pun">/</span><span class="pln">reports
+          destination</span><span class="pun">:</span><span class="pln"> reports
+      </span><span class="pun">-</span><span class="pln"> store_test_results</span><span class="pun">:</span><span class="pln">
+          path</span><span class="pun">:</span><span class="pln"> app</span><span class="pun">/</span><span class="pln">build</span><span class="pun">/</span><span class="pln">test</span><span class="pun">-</span><span class="pln">results</span></code></pre>
+<p>In the configuration of the Bitbucket, must be insured that the permissions of writing are enabled for committing immediate in the original branch</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/B.png"></p>
+<p>For dynamic, create a test unit that throw error assert on Java Class into test directory:</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AS.png"></p>
+<p>Write a error comment into commit, just only for visualize on Repository and CircleCi</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AT.png"></p>
+<p>When pushed on remote repository, we can view on CircleCi dashboard, on this display show every testing, the status change on real time (<strong>running</strong>): </p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AU.png"></p>
+<p>When finished, display one of two status failed or success. In this case show an issue</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AW.png"></p>
+<p>Suppose we found the problem, test unit cases had been corroborated, make commit and push it, into CircleCi dashboard show automatically</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AV.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AX.png"></p>
+<p>Great CircleCi run all test cases and not find any issue, but found a previous test case failed already corrected it.</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AY.png"></p>
+<p>Summarizing the dashboard of circleCi, shows the following:</p>
+<p>*<strong> NOT RUN</strong>: Had a test case don't run, circleCi need permissions for run testing cases.</p>
+<p>* <strong>SUCCESS</strong>: All test cases run successful</p>
+<p>* <strong>FAILED</strong>: Excited test cases don't run well</p>
+<p>* <strong>FIXED</strong>: Previous test case failed already had corrected it</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/AZ.png"></p>
+<aside class="special"><p>That's it. More help: <a href="https://circleci.com/docs/2.0/language-android/" target="_blank">CircleCi Android</a></p>
+</aside>
+
+
+      </div></div></google-codelab-step><google-codelab-step label="Intermediate Module" duration="0" step="3"><h2 is-upgraded="" class="step-title">3. Intermediate Module</h2>
+        <p>Once test the potential of the tool we are going to see the really useful thing that we can do with Circleci, let's suppose that in our team development, then we want to assure the main branch of our repository always have a stable version, where everything developed has been proved correctly.</p>
+<p>On Bitbucket go to configure and edit branch permissions, stay blank space in 'write access' input, and uncheck or revoke all permissions for revoking directly new changes, and enable pull request task for everybody.</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/C.png"></p>
+<p>Create a new testing case call <code>serviceModule</code>, in my case use mockito library </p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/D.png"></p>
+<p>Make the respective commit</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/E.png"></p>
+<p>But tried to send our changes to the remote <code>origin</code>, the repository will reject, because don't have permissions</p>
+<p><strong>Now, What we do?</strong></p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/HmD0Eq15WK8TKg66WE7nIOrtlvEQraFQdVyFXQuMLKYJ-V7n5VaUcds3G8w5w0oOyYEkHttHU0xi2ahgTkGHvhigLPacIBDXuzobKK58zh_c7IGi8yJGcG5CMs4v4T5bycIuYjTF6m8Q4lfzH9GaiwYZUx0pmQ=s2048.png"></p>
+<p><strong>Simple, create a new branch from our worked branch</strong></p>
+<p>If use Android Studio, on <code>Push Commits</code> window, write the name for new branch called <code>BranchServiceTest</code></p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/F.png"></p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/G.png"></p>
+<p>When pushed the branch, normally work because we only disabled the changes on master branch or directly push</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/H.png"></p>
+<p>On the CircleCi dashboard, a new record with <strong>NOT RUN</strong> label and the last commit, CircleCi detected new changes on repository but doesn't had permissions.</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/I.png"></p>
+<p>On Bitbucket we look the three change had a new <code>BranchServiceTest</code> branch, built from AndroidStudio</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/llynFB8uW22Rity_EUHwJy1c48NktkwkAiXYVF_E3E1Cl-wOmWr4pZ9L9bhqCq1tI_LY_pc0EaUHN9gvcaKigB9gk7MVqESMtJe_lGaYrUSFSb7TtO69DpFfdLHNBhRERLtySsVXr7EKKyg1xJSyeMPf4CTg=s2048.png"></p>
+<p>Suppose a person in charge of the changes, witch create the new branch need merge on remote origin, the person create a pull request</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/L.png"></p>
+<p>On details put a message for the respective merge request and indicate close branch when resolved conflicts.</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/M.png"></p>
+<p>On our project Pull Request display a new request:</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/N.png"></p>
+<p>Test manager put comments or merge directly. <strong>Look</strong> on upper right, a toggle button (Approve)**. Click to run test cases, then change in real time the execute</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/nK8w4b_qfO4KqY__4DTfz3HXG9ybnBtjSH8HCVQSvcUD1TD_AVc_ufi6LiFquHfxL2c7VsSPKJj_9QhBK5lqyLhNov1cLzqbcp9hgqrDlexoXInW-1RWaRn918rG35qMNUnEYn6t2m9lx4Ng4unYVYeaCOZZ=s2048.png"></p>
+<p>On CircleCi dashboard, added a new record,  when run all test and passed. The record status will change. In our case <code>success</code></p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/P.png"></p>
+<p>On the right screen display we visualize a counter of executed tests, in our case not detected that the issues of other test cases have been modified, only it will execute our test <em><code>serviceModule</code></em> of the class ModuleTest</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/W0kwfTb-CCrv1A16cAqsDB-Er_cVZhE6xrUeTR_k81XQllpy1G5n-rAbFkrXcEvvlkewc9HE-cguDk0kpM70q264d6M9U3DekI_tEi0utVXh-JDDEHTJSgELhq9sNTBdEtownM37fpGq12Hnn8HbTX5o1jRJ=s2048.png"></p>
+<p>When the administrador had confirm the new implementation to merge. <strong>Assuring a rate of reliability of the code at all time</strong></p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/R.png"></p>
+<p>On Bitbucket-commits display the new auxiliar branch was remove, just only display a branch <code>master</code>. </p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/S.png"></p>
+<p>Since we can estimate the tool Circleci, it allows us a great usefulness, for the management and control of the versioning of the cases of tests (proofs) automated, allowing to diversify the tasks between the collaborators of the project where they need test</p>
+<aside class="special"><p><strong>Excellent job!! </strong>You are ready for making security rules in repositories.</p>
+</aside>
+
+
+      </div></div></google-codelab-step><google-codelab-step label="Advance module" duration="0" step="4"><h2 is-upgraded="" class="step-title">4. Advance module</h2>
+        <p>On CircleCi dashboard show the result:</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/m9iG538IPhBqhFuNN5_F_Ac17mtzT_Fu5D1KpTox3MAe3hnY6poAcl7KfRSqQ1UUolcC2hmEINbDfEug8QSujX0fvycaIyaz1okuQ0yjLdalAbD_bD8hDpKcJqRNOJuhSa1B_VaxT1CckbMaFIIoF1PPzckA=s2048.png"></p>
+<p>We can see the record to detail of the testing, step by step display all the commands that we had written on yml file:</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/asONV4hnNCO669GzdTs91h_ffl91DdJA_GDYhdcaIbvcPiiZxNn9KK8oXGXRfo5K_iBR4iOZHdyCJsFLvGFtMPSF5s1Zqf8TBIzZsAMl0-zmd0G7kN5rsvoJsocyAoqIE9GZGL7Mu0OjiqaW96GJqJLCmWju=s2048.png"></p>
+<p>On CircleCi yml file, check <code>Chmod permissions</code>. Because it is very usual that the beginners in this tool have problems due to depending on the this machine(CircleCi Server)  would need permissions</p>
+<pre><code><span class="com">// ./circleci/config.yml</span><span class="pln">
+</span><span class="pun">...</span><span class="pln">
+jobs</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+  build</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+    steps</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+      </span><span class="pun">-</span><span class="pln"> run</span><span class="pun">:</span><span class="pln"> </span><span class="pun">...</span><span class="pln">
+         command</span><span class="pun">:</span><span class="pln"> sudo chmod </span><span class="pun">+</span><span class="pln">x </span><span class="pun">./</span><span class="pln">gradlew
+</span><span class="pun">...</span></code></pre>
+<p>CircleCi tools supported the gradle flavors, in this project use <code>SonarQube</code> flavor, for connect it to a base of facts of testing need it on the part of the organization:</p>
+<p class="image-container"><img style="width: 624.00px" src="./index_files/3lKUdMUUOpX_UOCTlIzvFIkZtaz9VVuLvgRKyt-sPqPHftvV7OCk6hbB1kum3cdL7azifVNH5Gb9HR8tlftCHiSyEx-gJzuhkKOZ8PI3EJBDqa0xlrKcUGgPPaMmf7QFyVzXigPC7ISr9MAwY8MKcsWx8H_S=s2048.png"></p>
+<aside class="special"><p>Thanks for read this tutorial, and check my <a href="http://portfolio.romellfudi.com/" target="_blank">portfolio</a> and <a href="https://github.com/romellfudi/" target="_blank">github page</a>.</p>
+</aside>
+
+
+      </div></div></google-codelab-step><google-codelab-step label="License" duration="0" step="5"><h2 is-upgraded="" class="step-title">5. License</h2>
+        <h2 is-upgraded=""><strong>by Romell Domínguez</strong></h2>
+<p class="image-container"><a href="http://portfolio.romellfudi.com"><img style="width: 287.00px" src="./index_files/icono.png"></a></p>        
+<p>Copyright 2018 Romell D.Z.</p>
+<p>Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<p>http://www.apache.org/licenses/LICENSE-2.0</p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,</p>
+<p>WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</p>
+<p>See the License for the specific language governing permissions and limitations under the License.</p>
+
+
+      </div></div></google-codelab-step></div><div id="controls"><div id="fabs"><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#" id="previous-step" title="Previous step" disappear="">Back</a><div class="spacer"></div><a href="https://codelabs-preview.appspot.com/?file_id=1xc6aH2K1-XWf8yGRFUvzA8X39YQYG2PNAb00Xaabi-Q#" id="next-step" title="Next step">Next</a><a href="https://codelabs-preview.appspot.com/" id="done" hidden="" title="Codelab complete">Done</a></div></div></div></google-codelab>
+
+  <script async="">
+    document.addEventListener("DOMContentLoaded", function() {
+      var pubBtn = document.getElementById('publishButton');
+      var pubForm = document.getElementById('publishForm');
+      var pubStatus = document.getElementById('publishButtonStatus');
+
+      pubForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        pubBtn.disabled = true;
+        pubStatus.textContent = '';
+        pubStatus.classList.remove('success');
+        pubStatus.classList.remove('error');
+
+        var req = new XMLHttpRequest();
+
+        var onError = function() {
+          var msg = 'Request failed';
+          if (req.statusText) {
+            msg += ' with status "' + req.statusText + '"';
+          }
+          if (req.responseText) {
+            msg += ': ' + req.responseText;
+          }
+          pubStatus.classList.add('error');
+          pubStatus.textContent = msg;
+          pubBtn.disabled = false;
+        };
+
+        req.addEventListener('load', function() {
+          if (req.status != 200) {
+            onError();
+            return;
+          }
+          pubStatus.textContent = ('Publication request submitted' +
+            ' (reload preview to re-publish)');
+          pubStatus.classList.add('success');
+        });
+        req.addEventListener('error', onError);
+        req.addEventListener('abort', onError);
+        req.open("post", pubForm.action);
+        req.send(new FormData(pubForm));
+      });
+    });
+  </script>
+
+  <script src="./index_files/native-shim.js"></script>
+  <script src="./index_files/custom-elements.min.js"></script>
+  <script src="./index_files/prettify.js"></script>
+  <script src="./index_files/codelab-elements.js"></script>
+
+
+</body></html>
